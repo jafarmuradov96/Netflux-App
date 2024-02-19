@@ -1,13 +1,14 @@
-const MoviesSorted = () => {
+
+
+const MoviesSorted = ({ handleSortChange }) => {
   return (
     <div>
-      <select name="" id="">
+      <select name="sortedYear" id="sortedYear" onChange={handleSortChange}>
         <option value="">Sorted</option>
-        <option value="">Years</option>
-        <option value="">Rating</option>
+        <option value="sortedYear">Years</option>
+        <option value="sortedRating">Rating</option>
       </select>
     </div>
   );
 };
-
-export default MoviesSorted;
+export default MoviesSorted
