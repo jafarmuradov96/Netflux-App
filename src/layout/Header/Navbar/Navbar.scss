@@ -1,0 +1,27 @@
+@import "../../../sass/variables.scss";
+@import "../../../sass/mixin.scss";
+
+.navbar {
+
+    ul {
+        display: flex;
+        gap: 2rem;
+        li {
+            
+
+            a {
+                color: var(--bs-white);
+                font-weight: 500;
+
+                &:hover {
+                    color: var(--bs-color-secondary);
+                }
+            }
+        }
+    }
+}
+
+.activeBtn {
+    color: var(--bs-color-secondary) !important;
+    // background-color: blue;
+}

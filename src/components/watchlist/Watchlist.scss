@@ -1,0 +1,15 @@
+@import '../../sass/mixin.scss';
+@import '../../sass/variables.scss';
+
+.watchlist {
+    min-height: 100vh;
+    padding-top: 12rem;
+
+
+    &__list {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+}

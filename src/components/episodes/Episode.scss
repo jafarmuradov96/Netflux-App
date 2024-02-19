@@ -1,0 +1,27 @@
+@import '../../sass/variables.scss';
+@import '../../sass/mixin.scss';
+
+.episode {
+    // margin-top: 100px;
+
+    &__image {
+        img {
+            width: 100%;
+            height: 45rem;
+            object-fit: cover;
+            border-radius: 0.7rem;
+
+            @media (max-width: 600px) {
+                object-fit: contain;
+            }
+        }
+    }
+
+    .slick-slide {
+        padding-right: 1rem;
+
+    }
+
+    
+}
+

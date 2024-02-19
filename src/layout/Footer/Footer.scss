@@ -1,0 +1,10 @@
+@import '../../sass/variables.scss';
+@import '../../sass/mixin.scss';
+
+footer {
+    background-color: var(--bs-black);
+    color: var(--bs-white);
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.4rem;
+}

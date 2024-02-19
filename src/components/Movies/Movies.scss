@@ -1,0 +1,37 @@
+@import '../../sass/variables.scss';
+@import '../../sass/mixin.scss';
+
+.movies {
+    padding-top: 12rem;
+    min-height: 100vh;
+
+
+    &__filter {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        justify-content: end;
+        margin-bottom: 3rem;
+
+
+
+
+        select {
+            padding: 1rem;
+            width: 20rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 0.8rem;
+            outline: none;
+            background: var(--bs-bg);
+            color: var(--bs-white);
+
+            
+        @media (max-width: 600px) {
+            width: 15rem;
+        }
+            
+        }
+    }
+}
+
