@@ -1,8 +1,13 @@
-
 import MovieItem from "../MovieItem/MovieItem";
-import './MoviesList.scss';
+import "./MoviesList.scss";
 
-const MoviesList = ({sortedYearsMovies, movieData, loading, handleMovieClick }) => {
+const MoviesList = ({
+  sortedYearsMovies,
+  movieData,
+  loading,
+  handleMovieClick,
+  openModal,
+}) => {
   if (loading) {
     return <div className="movies-list">Loading...</div>;
   }
@@ -13,8 +18,13 @@ const MoviesList = ({sortedYearsMovies, movieData, loading, handleMovieClick }) 
 
   return (
     <div className="movies-list">
-      {sortedYearsMovies.map(movie => (
-        <MovieItem key={movie.id} movie={movie} handleMovieClick = {handleMovieClick}/>
+      {sortedYearsMovies.map((movie) => (
+        <MovieItem
+          key={movie.id}
+          movie={movie}
+          handleMovieClick={handleMovieClick}
+          openModal = {openModal}
+        />
       ))}
     </div>
   );

@@ -10,8 +10,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TopRated from "./pages/top-rated/TopRated";
 import Upcoming from "./pages/upcoming/Upcoming";
-import {API_URL} from './services/movie'
-
+import { API_URL } from "./services/movie";
+import Modal from "./ui/Modal/Modal";
+import Button from "./ui/Button/Button";
+import { FaStar } from "react-icons/fa";
 
 function App() {
   const [movieData, setMovieData] = useState([]);
@@ -21,9 +23,25 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+
   const [isShowMenu, setIsShowMenu] = useState(false);
-  
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rating, setRating] = useState('?');
+  const [hoverRatin, setHoverRating] = useState(null);
+
+
+  const openModal = (id) => {
+    const findID = movieData.find((movie) => movie.id === id);
+
+    if (findID) {
+      setIsModalOpen(true);
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleChangeSearchValue = (e) => {
     setSearchValue(e.target.value);
   };
@@ -37,7 +55,9 @@ function App() {
               `${API_URL}discover/movie?api_key=${import.meta.env.VITE_API_KEY}`
             ),
             axios.get(
-              `${API_URL}movie/top_rated?api_key=${import.meta.env.VITE_API_KEY}`
+              `${API_URL}movie/top_rated?api_key=${
+                import.meta.env.VITE_API_KEY
+              }`
             ),
             axios.get(
               `${API_URL}movie/upcoming?api_key=${import.meta.env.VITE_API_KEY}`
@@ -66,20 +86,23 @@ function App() {
     }
   };
 
-
-  const handleClickSearch = async() => {
+  const handleClickSearch = async () => {
     try {
       const response = await axios.get(
-        `${API_URL}search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${searchValue}`
+        `${API_URL}search/movie?api_key=${
+          import.meta.env.VITE_API_KEY
+        }&query=${searchValue}`
       );
       setMovieData(response.data.results);
     } catch (error) {
       console.error("Error fetching movie:", error);
     }
-    setIsShowMenu(false)
+    setIsShowMenu(false);
+  };
+
+  const handleRating = () => {
+    // setRating()
   }
-
-
 
   if (loading) {
     return <div className="loading-page">Loading...</div>;
@@ -99,9 +122,9 @@ function App() {
               <MainLayout
                 searchValue={searchValue}
                 handleChangeSearchValue={handleChangeSearchValue}
-                handleClickSearch = {handleClickSearch}
-                isShowMenu = {isShowMenu}
-                setIsShowMenu = {setIsShowMenu}
+                handleClickSearch={handleClickSearch}
+                isShowMenu={isShowMenu}
+                setIsShowMenu={setIsShowMenu}
               />
             }
           >
@@ -123,6 +146,8 @@ function App() {
                   handleMovieClick={handleMovieClick}
                   movieData={movieData}
                   loading={loading}
+                  openModal={openModal}
+                  rating = {rating}
                 />
               }
             />
@@ -166,6 +191,41 @@ function App() {
             />
           </Route>
         </Routes>
+
+
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="rating-title">
+            <h6>Your Rating</h6> <span>{rating}</span>
+          </div>
+          <div className="rating-label">
+          {[...Array(10)].map((star, index) => {
+            const currentRating = index + 1;
+            return (
+                <label >
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={currentRating}
+                    onClick={() => setRating(currentRating)}
+                  />
+                  <FaStar
+                    className="star"
+                    size={30}
+                    color={
+                      currentRating <= (hoverRatin || rating)
+                        ? "#5799EF"
+                        : "#0000005b"
+                    }
+                    onMouseEnter={() => setHoverRating(currentRating)}
+                    onMouseLeave={() => setHoverRating(null)}
+                  />
+                </label>
+            );
+          })}
+          </div>
+
+          <Button onClick={handleRating} className="rate-button">Rate</Button>
+        </Modal>
       </BrowserRouter>
     </>
   );
