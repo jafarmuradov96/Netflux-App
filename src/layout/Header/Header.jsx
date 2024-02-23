@@ -6,13 +6,13 @@ import { FaSearch } from "react-icons/fa";
 import MyWatchlist from "../../components/MyWatchlist/MyWatchlist";
 import Input from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchValue } from "../../redux/movieSlice/movieSlice";
 
-const Header = ({
-  handleClickHamburger,
-  searchValue,
-  handleChangeSearchValue,
-  handleClickSearch
-}) => {
+const Header = ({ handleClickHamburger, handleClickSearch }) => {
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state) => state.movies.searchValue);
+
   const styleIcon = {
     color: "black",
     fontSize: "1em",
@@ -40,13 +40,10 @@ const Header = ({
                 placeholder="Search"
                 type="text"
                 value={searchValue}
-                onChange={handleChangeSearchValue}
+                onChange={(e) => dispatch(setSearchValue(e.target.value))}
               />
-              <Link to = 'movies'>
-                <Button  
-                type="submit"
-                onClick={handleClickSearch}
-                >
+              <Link to="movies">
+                <Button type="submit" onClick={handleClickSearch}>
                   <FaSearch style={styleIcon} />
                 </Button>
               </Link>

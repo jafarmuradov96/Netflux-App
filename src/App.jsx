@@ -5,45 +5,43 @@ import Main from "./components/Main/Main";
 import Watchlist from "./components/watchlist/Watchlist";
 import MovieDetail from "./components/Movies/MovieDetail/MovieDetail";
 import Movies from "./components/Movies/Movies";
-import YourRatings from "./pages/yourRatings/YourRatings";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import TopRated from "./pages/top-rated/TopRated";
 import Upcoming from "./pages/upcoming/Upcoming";
 import { API_URL } from "./services/movie";
-import Modal from "./ui/Modal/Modal";
-import Button from "./ui/Button/Button";
-import { FaStar } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsModalOpen,
+  setMovieData,
+  setSelectedMovie,
+  setSelectedMovieID,
+  setTopRatedMovies,
+  setUpcomingMovies,
+} from "./redux/movieSlice/movieSlice";
 
 function App() {
-  const [movieData, setMovieData] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [searchValue, setSearchValue] = useState("");
-
   const [isShowMenu, setIsShowMenu] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rating, setRating] = useState('?');
-  const [hoverRatin, setHoverRating] = useState(null);
 
+  const dispatch = useDispatch();
+  const { movieData, topRatedMovies, upcomingMovies, searchValue } =
+    useSelector((state) => state.movies);
 
   const openModal = (id) => {
-    const findID = movieData.find((movie) => movie.id === id);
+    const findIDMovie = movieData.find((movie) => movie.id === id);
+    const findIDTopRated = topRatedMovies.find((movie) => movie.id === id);
+    const findIDUpcoming = upcomingMovies.find((movie) => movie.id === id);
 
-    if (findID) {
-      setIsModalOpen(true);
+    if (findIDMovie || findIDTopRated || findIDUpcoming) {
+      dispatch(setSelectedMovieID(id));
+      dispatch(setIsModalOpen(true));
     }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleChangeSearchValue = (e) => {
-    setSearchValue(e.target.value);
+    dispatch(setIsModalOpen(false));
   };
 
   useEffect(() => {
@@ -63,9 +61,9 @@ function App() {
               `${API_URL}movie/upcoming?api_key=${import.meta.env.VITE_API_KEY}`
             ),
           ]);
-        setMovieData(moviesResponse.data.results);
-        setTopRatedMovies(topRatedResponse.data.results);
-        setUpcomingMovies(upcomingMoviesResponse.data.results);
+        dispatch(setMovieData(moviesResponse.data.results));
+        dispatch(setTopRatedMovies(topRatedResponse.data.results));
+        dispatch(setUpcomingMovies(upcomingMoviesResponse.data.results));
       } catch (error) {
         setError(error);
       } finally {
@@ -80,7 +78,7 @@ function App() {
       const response = await axios.get(
         `${API_URL}movie/${id}?api_key=${import.meta.env.VITE_API_KEY}`
       );
-      setSelectedMovie(response.data);
+      dispatch(setSelectedMovie(response.data));
     } catch (error) {
       console.error("Error fetching movie:", error);
     }
@@ -93,16 +91,12 @@ function App() {
           import.meta.env.VITE_API_KEY
         }&query=${searchValue}`
       );
-      setMovieData(response.data.results);
+      dispatch(setMovieData(response.data.results));
     } catch (error) {
       console.error("Error fetching movie:", error);
     }
     setIsShowMenu(false);
   };
-
-  const handleRating = () => {
-    // setRating()
-  }
 
   if (loading) {
     return <div className="loading-page">Loading...</div>;
@@ -111,8 +105,8 @@ function App() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  // console.log(movieData, '11');
 
+  console.log(movieData, 111111111);
   return (
     <>
       <BrowserRouter>
@@ -120,8 +114,6 @@ function App() {
           <Route
             element={
               <MainLayout
-                searchValue={searchValue}
-                handleChangeSearchValue={handleChangeSearchValue}
                 handleClickSearch={handleClickSearch}
                 isShowMenu={isShowMenu}
                 setIsShowMenu={setIsShowMenu}
@@ -130,25 +122,12 @@ function App() {
           >
             <Route
               path="/"
-              element={
-                <Main
-                  handleMovieClick={handleMovieClick}
-                  upcomingMovies={upcomingMovies}
-                  topRatedMovies={topRatedMovies}
-                />
-              }
+              element={<Main handleMovieClick={handleMovieClick} />}
             />
-            <Route path="your-ratings" element={<YourRatings />} />
             <Route
               path="movies"
               element={
-                <Movies
-                  handleMovieClick={handleMovieClick}
-                  movieData={movieData}
-                  loading={loading}
-                  openModal={openModal}
-                  rating = {rating}
-                />
+                <Movies handleMovieClick={handleMovieClick} loading={loading} />
               }
             />
             <Route
@@ -156,7 +135,6 @@ function App() {
               element={
                 <TopRated
                   handleMovieClick={handleMovieClick}
-                  topRatedMovies={topRatedMovies}
                   loading={loading}
                 />
               }
@@ -166,66 +144,17 @@ function App() {
               element={
                 <Upcoming
                   handleMovieClick={handleMovieClick}
-                  upcomingMovies={upcomingMovies}
                   loading={loading}
                 />
               }
             />
             <Route path="watchlist" element={<Watchlist />} />
-
-            <Route
-              path="/:id"
-              element={<MovieDetail selectedMovie={selectedMovie} />}
-            />
-            <Route
-              path="movies/:id"
-              element={<MovieDetail selectedMovie={selectedMovie} />}
-            />
-            <Route
-              path="top-rated/:id"
-              element={<MovieDetail selectedMovie={selectedMovie} />}
-            />
-            <Route
-              path="upcoming/:id"
-              element={<MovieDetail selectedMovie={selectedMovie} />}
-            />
+            <Route path="/:id" element={<MovieDetail />} />
+            <Route path="movies/:id" element={<MovieDetail />} />
+            <Route path="top-rated/:id" element={<MovieDetail />} />
+            <Route path="upcoming/:id" element={<MovieDetail />} />
           </Route>
         </Routes>
-
-
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="rating-title">
-            <h6>Your Rating</h6> <span>{rating}</span>
-          </div>
-          <div className="rating-label">
-          {[...Array(10)].map((star, index) => {
-            const currentRating = index + 1;
-            return (
-                <label >
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={currentRating}
-                    onClick={() => setRating(currentRating)}
-                  />
-                  <FaStar
-                    className="star"
-                    size={30}
-                    color={
-                      currentRating <= (hoverRatin || rating)
-                        ? "#5799EF"
-                        : "#0000005b"
-                    }
-                    onMouseEnter={() => setHoverRating(currentRating)}
-                    onMouseLeave={() => setHoverRating(null)}
-                  />
-                </label>
-            );
-          })}
-          </div>
-
-          <Button onClick={handleRating} className="rate-button">Rate</Button>
-        </Modal>
       </BrowserRouter>
     </>
   );

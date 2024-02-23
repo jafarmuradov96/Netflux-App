@@ -1,13 +1,16 @@
+import { useSelector } from "react-redux";
 import MovieItem from "../MovieItem/MovieItem";
 import "./MoviesList.scss";
 
 const MoviesList = ({
   sortedYearsMovies,
-  movieData,
   loading,
   handleMovieClick,
   openModal,
+  closeModal,
+  handleRating
 }) => {
+  const  movieData  = useSelector((state) => state.movies.movieData)
   if (loading) {
     return <div className="movies-list">Loading...</div>;
   }
@@ -24,6 +27,8 @@ const MoviesList = ({
           movie={movie}
           handleMovieClick={handleMovieClick}
           openModal = {openModal}
+          closeModal = {closeModal}
+          handleRating = {handleRating}
         />
       ))}
     </div>

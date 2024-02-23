@@ -4,10 +4,15 @@ import "./Movies.scss";
 import MoviesFiltered from "./MoviesFiltered/MoviesFiltered";
 import MoviesList from "./MoviesList/MoviesList";
 import MoviesSorted from "./MoviesSorted/MoviesSorted";
+import { useSelector } from "react-redux";
 
-const Movies = ({ movieData, loading, handleMovieClick, openModal }) => {
+const Movies = ({loading, handleMovieClick  }) => {
+
   const [sortedYear, setSortedYear] = useState("");
   const [sortedRating, setSortedRating] = useState("");
+
+
+  const  movieData  = useSelector((state) => state.movies.movieData)
 
   const handleSortChange = (e) => {
     setSortedYear(e.target.value);
@@ -40,16 +45,14 @@ const Movies = ({ movieData, loading, handleMovieClick, openModal }) => {
         <div className="movies__filter">
           <MoviesSorted handleSortChange={handleSortChange} />
 
-          <MoviesFiltered />
+          {/* <MoviesFiltered /> */}
         </div>
 
         <div className="">
           <MoviesList
             sortedYearsMovies={sortedYearsMovies}
             handleMovieClick={handleMovieClick}
-            movieData={movieData}
             loading={loading}
-            openModal = {openModal}
           />
         </div>
       </div>

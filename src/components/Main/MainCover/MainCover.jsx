@@ -3,9 +3,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
-export default function MainCover({ topRatedMovies, handleMovieClick }) {
+export default function MainCover({  handleMovieClick, }) {
+
+  const  topRatedMovies  = useSelector((state) => state.movies.topRatedMovies)
+
   const settings = {
     dots: false,
     arrows: false,
