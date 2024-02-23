@@ -6,10 +6,8 @@ const initialState = {
   upcomingMovies: [],
   selectedMovie: null,
   searchValue: "",
-  isModalOpen: false,
-  rating: 0,
-  hoverRating: null,
   selectedMovieID: null,
+  watchlist: [],
 };
 
 export const movieSlice = createSlice({
@@ -31,18 +29,10 @@ export const movieSlice = createSlice({
     setSearchValue: (state, action) => {
       state.searchValue = action.payload;
     },
-    setIsModalOpen: (state, action) => {
-      state.isModalOpen = action.payload;
-    },
-    setRating(state, action) {
-      state.rating = action.payload;
-    },
-    setHoverRating(state, action) {
-      state.hoverRating = action.payload;
-    },
-    setSelectedMovieID: (state, action) => {
-        state.selectedMovieID = action.payload;
-    },
+    setWatchlist: (state, action) => {
+      state.watchlist = action.payload;
+    }
+
   },
 });
 
@@ -52,9 +42,6 @@ export const {
   setUpcomingMovies,
   setSelectedMovie,
   setSearchValue,
-  setIsModalOpen,
-  setRating,
-  setHoverRating,
-  setSelectedMovieID,
+  setWatchlist
 } = movieSlice.actions;
 export default movieSlice.reducer;

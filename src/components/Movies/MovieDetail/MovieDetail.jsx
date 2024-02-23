@@ -3,7 +3,8 @@ import WatchlistBtn from "../../watchlistBtn/WatchlistBtn";
 import "./MovieDetail.scss";
 import { FaStar } from "react-icons/fa";
 
-const MovieDetail = ({ }) => {
+
+const MovieDetail = ({ handleWatchlistClick }) => {
 
   const { selectedMovie } = useSelector((state) => state.movies)
   console.log(selectedMovie, 222222);
@@ -46,7 +47,7 @@ const MovieDetail = ({ }) => {
             </div>
   
             <div className="movie-cart__button movie-detail__content__btn">
-              <WatchlistBtn />
+              <WatchlistBtn handleWatchlistClick = {handleWatchlistClick} movie = {selectedMovie}/>
             </div>
           </div>
         </div>

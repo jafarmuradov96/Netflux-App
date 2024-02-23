@@ -3,7 +3,7 @@ import "./MovieItem.scss";
 import { FaStar } from "react-icons/fa";
 import WatchlistBtn from "../../watchlistBtn/WatchlistBtn";
 
-const MovieItem = ({ movie, handleMovieClick }) => {
+const MovieItem = ({ movie, handleMovieClick, handleWatchlistClick, btnName }) => {
   return (
     <>
       <div className="movie-cart">
@@ -35,7 +35,7 @@ const MovieItem = ({ movie, handleMovieClick }) => {
           </Link>
         </div>
         <div className="movie-cart__button">
-          <WatchlistBtn />
+          <WatchlistBtn handleWatchlistClick = {handleWatchlistClick} movie = {movie} btnName = {btnName}/>
         </div>
       </div>
     </>

@@ -6,7 +6,7 @@ import MoviesList from "./MoviesList/MoviesList";
 import MoviesSorted from "./MoviesSorted/MoviesSorted";
 import { useSelector } from "react-redux";
 
-const Movies = ({loading, handleMovieClick  }) => {
+const Movies = ({loading, handleMovieClick, handleWatchlistClick  }) => {
 
   const [sortedYear, setSortedYear] = useState("");
   const [sortedRating, setSortedRating] = useState("");
@@ -53,6 +53,7 @@ const Movies = ({loading, handleMovieClick  }) => {
             sortedYearsMovies={sortedYearsMovies}
             handleMovieClick={handleMovieClick}
             loading={loading}
+            handleWatchlistClick = {handleWatchlistClick}
           />
         </div>
       </div>

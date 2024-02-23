@@ -3,15 +3,15 @@ import Feature from "../feauture/Feature";
 import TopRatings from "../topRatings/TopRatings";
 import MainCover from "./MainCover/MainCover";
 
-const Main = ({ handleMovieClick }) => {
+const Main = ({ handleMovieClick, handleWatchlistClick }) => {
   return (
     <>
       <MainCover handleMovieClick={handleMovieClick} />
 
       <div className="container">
-        <Feature handleMovieClick={handleMovieClick} />
+        <Feature handleMovieClick={handleMovieClick} handleWatchlistClick = {handleWatchlistClick}/>
         <Episode />
-        <TopRatings handleMovieClick={handleMovieClick} />
+        <TopRatings handleMovieClick={handleMovieClick} handleWatchlistClick = {handleWatchlistClick} />
       </div>
     </>
   );

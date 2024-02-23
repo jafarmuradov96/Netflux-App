@@ -4,11 +4,11 @@ import './Navbar.scss';
 const Navbar = () => {
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0); 
   };
 
   const handleNavLinkClick = () => {
-    scrollToTop(); // Scroll to the top when a NavLink is clicked
+    scrollToTop(); 
   };
   return (
     <nav className='navbar'>

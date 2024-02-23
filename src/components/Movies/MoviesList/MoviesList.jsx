@@ -6,9 +6,7 @@ const MoviesList = ({
   sortedYearsMovies,
   loading,
   handleMovieClick,
-  openModal,
-  closeModal,
-  handleRating
+  handleWatchlistClick
 }) => {
   const  movieData  = useSelector((state) => state.movies.movieData)
   if (loading) {
@@ -26,9 +24,7 @@ const MoviesList = ({
           key={movie.id}
           movie={movie}
           handleMovieClick={handleMovieClick}
-          openModal = {openModal}
-          closeModal = {closeModal}
-          handleRating = {handleRating}
+          handleWatchlistClick = {handleWatchlistClick}
         />
       ))}
     </div>

@@ -13,6 +13,8 @@ const Header = ({ handleClickHamburger, handleClickSearch }) => {
   const dispatch = useDispatch();
   const searchValue = useSelector((state) => state.movies.searchValue);
 
+
+
   const styleIcon = {
     color: "black",
     fontSize: "1em",
@@ -42,7 +44,7 @@ const Header = ({ handleClickHamburger, handleClickSearch }) => {
                 value={searchValue}
                 onChange={(e) => dispatch(setSearchValue(e.target.value))}
               />
-              <Link to="movies">
+              <Link to="movies" >
                 <Button type="submit" onClick={handleClickSearch}>
                   <FaSearch style={styleIcon} />
                 </Button>
