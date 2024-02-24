@@ -4,11 +4,10 @@ import "./MoviesList.scss";
 
 const MoviesList = ({
   sortedYearsMovies,
-  loading,
   handleMovieClick,
   handleWatchlistClick
 }) => {
-  const  movieData  = useSelector((state) => state.movies.movieData)
+  const  { movieData, loading}  = useSelector((state) => state.movies)
   if (loading) {
     return <div className="movies-list">Loading...</div>;
   }

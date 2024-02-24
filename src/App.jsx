@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layout/MainLayout/MainLayout";
 import Main from "./components/Main/Main";
@@ -12,6 +11,9 @@ import Upcoming from "./pages/upcoming/Upcoming";
 import { API_URL } from "./services/movie";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setError,
+  setIsShowMenu,
+  setLoading,
   setMovieData,
   setSelectedMovie,
   setTopRatedMovies,
@@ -20,12 +22,10 @@ import {
 } from "./redux/movieSlice/movieSlice";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isShowMenu, setIsShowMenu] = useState(false);
-
   const dispatch = useDispatch();
-  const { searchValue, watchlist } = useSelector((state) => state.movies);
+  const { searchValue, watchlist, loading, error } = useSelector(
+    (state) => state.movies
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,9 +48,9 @@ function App() {
         dispatch(setTopRatedMovies(topRatedResponse.data.results));
         dispatch(setUpcomingMovies(upcomingMoviesResponse.data.results));
       } catch (error) {
-        setError(error);
+        dispatch(setError(error));
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
     fetchData();
@@ -78,11 +78,11 @@ function App() {
     } catch (error) {
       console.error("Error fetching movie:", error);
     }
-    setIsShowMenu(false);
+    dispatch(setIsShowMenu(false));
   };
 
   useEffect(() => {
-    const storedWatchlist = localStorage.getItem('watchlist');
+    const storedWatchlist = localStorage.getItem("watchlist");
     if (storedWatchlist) {
       dispatch(setWatchlist(JSON.parse(storedWatchlist)));
     }
@@ -100,9 +100,11 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
+
+  
   if (loading) {
     return <div className="loading-page">Loading...</div>;
   }
@@ -115,25 +117,21 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            element={
-              <MainLayout
-                handleClickSearch={handleClickSearch}
-                isShowMenu={isShowMenu}
-                setIsShowMenu={setIsShowMenu}
-              />
-            }
-          >
+          <Route element={<MainLayout handleClickSearch={handleClickSearch} />}>
             <Route
               path="/"
-              element={<Main handleMovieClick={handleMovieClick} handleWatchlistClick = {handleWatchlistClick} />}
+              element={
+                <Main
+                  handleMovieClick={handleMovieClick}
+                  handleWatchlistClick={handleWatchlistClick}
+                />
+              }
             />
             <Route
               path="movies"
               element={
                 <Movies
                   handleMovieClick={handleMovieClick}
-                  loading={loading}
                   handleWatchlistClick={handleWatchlistClick}
                 />
               }
@@ -143,7 +141,6 @@ function App() {
               element={
                 <TopRated
                   handleMovieClick={handleMovieClick}
-                  loading={loading}
                   handleWatchlistClick={handleWatchlistClick}
                 />
               }
@@ -153,20 +150,49 @@ function App() {
               element={
                 <Upcoming
                   handleMovieClick={handleMovieClick}
-                  loading={loading}
-                  handleWatchlistClick = {handleWatchlistClick}
+                  handleWatchlistClick={handleWatchlistClick}
                 />
               }
             />
             <Route
               path="watchlist"
-              element={<Watchlist handleMovieClick={handleMovieClick} handleWatchlistClick={handleWatchlistClick} />}
+              element={
+                <Watchlist
+                  handleMovieClick={handleMovieClick}
+                  handleWatchlistClick={handleWatchlistClick}
+                />
+              }
             />
-            <Route path="/:id" element={<MovieDetail  handleWatchlistClick = {handleWatchlistClick}/>} />
-            <Route path="movies/:id" element={<MovieDetail handleWatchlistClick = {handleWatchlistClick} />} />
-            <Route path="top-rated/:id" element={<MovieDetail handleWatchlistClick = {handleWatchlistClick} />} />
-            <Route path="upcoming/:id" element={<MovieDetail  handleWatchlistClick = {handleWatchlistClick}/>} />
-            <Route path="watchlist/:id" element={<MovieDetail  handleWatchlistClick = {handleWatchlistClick}/>} />
+            <Route
+              path="/:id"
+              element={
+                <MovieDetail handleWatchlistClick={handleWatchlistClick} />
+              }
+            />
+            <Route
+              path="movies/:id"
+              element={
+                <MovieDetail handleWatchlistClick={handleWatchlistClick} />
+              }
+            />
+            <Route
+              path="top-rated/:id"
+              element={
+                <MovieDetail handleWatchlistClick={handleWatchlistClick} />
+              }
+            />
+            <Route
+              path="upcoming/:id"
+              element={
+                <MovieDetail handleWatchlistClick={handleWatchlistClick} />
+              }
+            />
+            <Route
+              path="watchlist/:id"
+              element={
+                <MovieDetail handleWatchlistClick={handleWatchlistClick} />
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

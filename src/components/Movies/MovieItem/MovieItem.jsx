@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import WatchlistBtn from "../../watchlistBtn/WatchlistBtn";
 
 const MovieItem = ({ movie, handleMovieClick, handleWatchlistClick, btnName }) => {
+  
   return (
     <>
       <div className="movie-cart">

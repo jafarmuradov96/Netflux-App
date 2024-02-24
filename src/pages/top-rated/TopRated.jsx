@@ -4,8 +4,8 @@ import HeadingSection from "../../components/heading/HeadingSection";
 import MovieItem from "../../components/Movies/MovieItem/MovieItem";
 import { useSelector } from "react-redux";
 
-const TopRated = ({ loading, handleMovieClick, handleWatchlistClick }) => {
-  const topRatedMovies = useSelector((state) => state.movies.topRatedMovies);
+const TopRated = ({ handleMovieClick, handleWatchlistClick }) => {
+  const { topRatedMovies, loading} = useSelector((state) => state.movies);
   if (loading) {
     return <div className="movies-list">Loading...</div>;
   }

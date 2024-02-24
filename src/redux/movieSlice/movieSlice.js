@@ -4,10 +4,13 @@ const initialState = {
   movieData: [],
   topRatedMovies: [],
   upcomingMovies: [],
+  watchlist: [],
   selectedMovie: null,
   searchValue: "",
   selectedMovieID: null,
-  watchlist: [],
+  loading: true,
+  error: null,
+  isShowMenu: false,
 };
 
 export const movieSlice = createSlice({
@@ -31,6 +34,15 @@ export const movieSlice = createSlice({
     },
     setWatchlist: (state, action) => {
       state.watchlist = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setIsShowMenu: (state, action) => {
+      state.isShowMenu = action.payload;
     }
 
   },
@@ -42,6 +54,9 @@ export const {
   setUpcomingMovies,
   setSelectedMovie,
   setSearchValue,
-  setWatchlist
+  setWatchlist,
+  setLoading,
+  setError,
+  setIsShowMenu,
 } = movieSlice.actions;
 export default movieSlice.reducer;

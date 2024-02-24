@@ -5,9 +5,9 @@ import { FaStar } from "react-icons/fa";
 
 
 const MovieDetail = ({ handleWatchlistClick }) => {
-
+  
   const { selectedMovie } = useSelector((state) => state.movies)
-  console.log(selectedMovie, 222222);
+
   return (
     <>
       {

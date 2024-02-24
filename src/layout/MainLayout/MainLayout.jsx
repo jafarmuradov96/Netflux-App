@@ -3,25 +3,22 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { useState } from "react";
 import MobileMenu from "../../components/mobile-menu/MobileMenu";
+import { useDispatch } from "react-redux";
+import { setIsShowMenu } from "../../redux/movieSlice/movieSlice";
 
-const MainLayout = ({
-  handleClickSearch,
-  setIsShowMenu,
-  isShowMenu,
-  
-}) => {
+const MainLayout = ({ handleClickSearch }) => {
+  const dispatch = useDispatch();
 
   const handleClickHamburger = () => {
-    setIsShowMenu(true);
+    dispatch(setIsShowMenu(true));
   };
 
   const handleCloseHamburger = () => {
-    setIsShowMenu(false);
+    dispatch(setIsShowMenu(false));
   };
   return (
     <>
       <MobileMenu
-        isShowMenu={isShowMenu}
         handleCloseHamburger={handleCloseHamburger}
         handleClickSearch={handleClickSearch}
       />

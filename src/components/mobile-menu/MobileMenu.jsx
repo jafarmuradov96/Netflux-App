@@ -7,13 +7,9 @@ import Input from "../../ui/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchValue } from "../../redux/movieSlice/movieSlice";
 
-const MobileMenu = ({
-  isShowMenu,
-  handleCloseHamburger,
-  handleClickSearch,
-}) => {
+const MobileMenu = ({ handleCloseHamburger, handleClickSearch }) => {
   const dispatch = useDispatch();
-  const searchValue = useSelector((state) => state.movies.searchValue);
+  const { searchValue, isShowMenu } = useSelector((state) => state.movies);
 
   const styleIcon = {
     color: "black",
@@ -22,12 +18,12 @@ const MobileMenu = ({
     cursor: "pointer",
   };
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0); 
   };
 
   const handleNavLinkClick = () => {
     scrollToTop();
-    handleCloseHamburger();// Scroll to the top when a NavLink is clicked
+    handleCloseHamburger(); 
   };
   return (
     <div className={`navigation ${isShowMenu ? "navigation-active" : ""}`}>
@@ -45,10 +41,7 @@ const MobileMenu = ({
         </Link>
       </form>
 
-      <span
-        className="navigation__close"
-        onClick={() => handleNavLinkClick()}
-      >
+      <span className="navigation__close" onClick={() => handleNavLinkClick()}>
         &times;
       </span>
 
