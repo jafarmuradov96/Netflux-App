@@ -22,12 +22,23 @@ const Header = ({ handleClickHamburger, handleClickSearch }) => {
     cursor: "pointer",
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' 
+    });
+};
+
+const handleNavLinkClick = () => {
+    scrollToTop();
+};
+
   return (
     <header>
       <div className="container">
         <div className="header">
           <div className="header__logo">
-            <Link to="/">
+            <Link to="/" onClick={handleNavLinkClick}>
               <img src={logo} alt="logo" />
             </Link>
           </div>

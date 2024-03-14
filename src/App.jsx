@@ -27,6 +27,9 @@ function App() {
     (state) => state.movies
   );
 
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +59,9 @@ function App() {
     fetchData();
   }, []);
 
+
+
+
   const handleMovieClick = async (id) => {
     try {
       const response = await axios.get(
@@ -66,6 +72,9 @@ function App() {
       console.error("Error fetching movie:", error);
     }
   };
+
+
+
 
   const handleClickSearch = async () => {
     try {
@@ -81,6 +90,8 @@ function App() {
     dispatch(setIsShowMenu(false));
   };
 
+
+
   useEffect(() => {
     const storedWatchlist = localStorage.getItem("watchlist");
     if (storedWatchlist) {
@@ -88,15 +99,32 @@ function App() {
     }
   }, [dispatch]);
 
+
+
+
+  // const handleWatchlistClick = (movie) => {
+  //   const isInWatchlist = watchlist.some((item) => item.id === movie.id);
+
+  //   if (isInWatchlist) {
+  //     const updatedWatchlist = watchlist.filter((item) => item.id !== movie.id);
+  //     dispatch(setWatchlist(updatedWatchlist));
+  //   } else {
+  //     dispatch(setWatchlist([...watchlist, movie]));
+  //   }
+  // };
   const handleWatchlistClick = (movie) => {
     const isInWatchlist = watchlist.some((item) => item.id === movie.id);
-
+  
     if (isInWatchlist) {
       const updatedWatchlist = watchlist.filter((item) => item.id !== movie.id);
       dispatch(setWatchlist(updatedWatchlist));
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
     } else {
       dispatch(setWatchlist([...watchlist, movie]));
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
     }
+  
+    
   };
 
   useEffect(() => {
